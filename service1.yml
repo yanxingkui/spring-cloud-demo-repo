@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: service1
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+  config:
+    label: master
+    profile: dev
+    uri: http://localhost:8084/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
+      #http://eureka1:8761/eureka/,http://eureka2:8762/eureka/,http://eureka3:8763/eureka/
+  instance:
+    hostname: localhost
+    instance-id: http://localhost:8082
+server:
+  port: 8082 #service0 占用8082
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 40000   feign 超时控制
+service0:
+  ribbon:
+    ReadTimeout: 1000
+    ConnectTimeout: 500
+    MaxAutoRetries: 1  # SR6版本,这里设为1,会重试3次,重试次数还和另外的两个值有关
